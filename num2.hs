@@ -1,25 +1,17 @@
 import Data.Char
 
 isConIdIdentifier :: String -> Bool
-isConIdIdentifier str = not (null str) && isUpper (head str) && isConIdTail (tail str)
+isConIdIdentifier [] = False
+isConIdIdentifier (head:tail) = isConIdHead head && isConIdTail tail
+
+isConIdHead :: Char -> Bool
+isConIdHead = isUpper
 
 isConIdTail :: String -> Bool
 isConIdTail = hasOnlySmallLargeDigitNSingleComma
 
 hasOnlySmallLargeDigitNSingleComma :: String -> Bool
-hasOnlySmallLargeDigitNSingleComma str = length str - lowerCaseLength str - upperCaseLength str - digitLength str - singleCommasLength str == 0
-
-lowerCaseLength :: String -> Int
-lowerCaseLength str = length (filter isLower str)
-
-upperCaseLength :: String -> Int
-upperCaseLength str = length (filter isUpper str)
-
-digitLength :: String -> Int
-digitLength str = length (filter isDigit str)
-
-singleCommasLength :: String -> Int
-singleCommasLength str = length (filter (== '\'') str)
+hasOnlySmallLargeDigitNSingleComma = all (\c -> isLower c || isUpper c || isDigit c || c == '\'')
 
 main :: IO ()
 main = do
