@@ -2,10 +2,7 @@ import Data.Char
 
 isConIdIdentifier :: String -> Bool
 isConIdIdentifier [] = False
-isConIdIdentifier (head:tail) = isConIdHead head && isConIdTail tail
-
-isConIdHead :: Char -> Bool
-isConIdHead = isUpper
+isConIdIdentifier (head:tail) = isUpper head && isConIdTail tail
 
 isConIdTail :: String -> Bool
 isConIdTail = hasOnlySmallLargeDigitNSingleComma
