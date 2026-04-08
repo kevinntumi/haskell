@@ -29,19 +29,68 @@ isReservedId :: String -> Bool
 isReservedId str = str `elem` getReservedIdentifiers
 
 isSymbol :: Char -> Bool
-isSymbol c = c `elem` getSymbols
+isSymbol c = c `elem` symbols
 
 isReservedOp :: String -> Bool
-isReservedOp str = str `elem` getReservedOperators
+isReservedOp str = str `elem` reservedOperators
 
-getReservedOperators :: [String]
-getReservedOperators = ["..", ":", "::", "=", "\\", "|", "<-", "->", "@", "~", "=>"]
+reservedOperators :: [String]
+reservedOperators = 
+    [
+        "..", 
+        ":", 
+        "::", 
+        "=", 
+        "\\", 
+        "|", 
+        "<-", 
+        "->", 
+        "@", 
+        "~", 
+        "=>"
+    ]
 
 getReservedIdentifiers :: [String]
-getReservedIdentifiers = ["case", "class", "data", "default", "deriving", "do", "else", "if", "import", "in", "infix", "infixl", "infixr", "instance", "let", "module", "newtype", "of", "then", "type", "where", "foreign", "forall", "MDo", "family", "role", "pattern", "static", "group", "by", "using", "qualified", "as", "hiding"]
+getReservedIdentifiers = 
+    [
+        "case", 
+        "class", 
+        "data", 
+        "default", 
+        "deriving", 
+        "do", 
+        "else", 
+        "if", 
+        "import", 
+        "in", 
+        "infix", 
+        "infixl", 
+        "infixr", 
+        "instance", 
+        "let", 
+        "module", 
+        "newtype", 
+        "of", 
+        "then", 
+        "type", 
+        "where", 
+        "foreign", 
+        "forall", 
+        "MDo", 
+        "family", 
+        "role", 
+        "pattern", 
+        "static", 
+        "group", 
+        "by", 
+        "using", 
+        "qualified", 
+        "as", 
+        "hiding"
+    ]
 
-getSymbols :: [Char]
-getSymbols = "!#$%&*+./<=>?@\\^|-~"
+symbols :: [Char]
+symbols = "!#$%&*+./<=>?@\\^|-~"
 
 classificarLexema :: String -> IO ()
 classificarLexema str
