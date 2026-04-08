@@ -1,4 +1,5 @@
 import Data.Char (isUpper, isLower, isDigit)
+import Control.Monad (when)
 
 isConIdIdentifier :: String -> Bool
 isConIdIdentifier str = not (null str) && isUpper (head str) && isConNVarIdTail (tail str)
@@ -50,8 +51,21 @@ classificarLexema str
     | isConSymIdentifier str = putStrLn "ConSym"
     | otherwise = putStrLn "Não é um identificador válido."
 
-main :: IO ()
-main = do
+mostrarMenu :: IO ()
+mostrarMenu = do
     putStrLn "Digite um lexema para classificar:"
     str <- getLine
     classificarLexema str
+
+    putStrLn "\nDeseja classificar outro lexema? (s/n)"
+    resposta <- getLine
+
+    when (foiAceiteResposta resposta) mostrarMenu
+
+foiAceiteResposta :: String -> Bool
+foiAceiteResposta [] = False
+foiAceiteResposta (x:_) = x `elem` "sS"
+            
+main :: IO ()
+main = do
+    mostrarMenu
