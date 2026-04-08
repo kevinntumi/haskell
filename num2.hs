@@ -1,20 +1,19 @@
-import Data.Char
-import Control.Monad.RWS.Class (MonadState(put))
+import Data.Char (isUpper, isLower, isDigit)
 
 isConIdIdentifier :: String -> Bool
 isConIdIdentifier str = not (null str) && isUpper (head str) && isConNVarIdTail (tail str)
 
 isConNVarIdTail :: String -> Bool
-isConNVarIdTail = all (\c -> isLower c || isUpper c || isDigit c || c == '\'')
+isConNVarIdTail = all (\c -> isSmall c || isUpper c || isDigit c || c == '\'')
 
 isVarSymTail :: String -> Bool
-isVarSymTail = all (\c -> (isSymbol c && c /= '-') || c == ':')
+isVarSymTail = all isSymbol
 
 isVarSymIdentifier :: String -> Bool
 isVarSymIdentifier str = not (null str) && isSymbol (head str) && isVarSymTail (tail str) && not (isReservedOp str)
 
 isVarIdIdentifier :: String -> Bool
-isVarIdIdentifier str = not (null str) && isLower (head str) && isConNVarIdTail (tail str) && not (isReservedId str)
+isVarIdIdentifier str = not (null str) && isSmall (head str) && isConNVarIdTail (tail str) && not (isReservedId str)
 
 isConSymIdentifier :: String -> Bool
 isConSymIdentifier str = not (null str) && head str == ':' && isConSymTail (tail str) && not (isReservedOp str)
@@ -22,8 +21,14 @@ isConSymIdentifier str = not (null str) && head str == ':' && isConSymTail (tail
 isConSymTail :: String -> Bool
 isConSymTail = all (\c -> isSymbol c || c == ':')
 
+isSmall :: Char -> Bool
+isSmall c = isLower c || c == '_'
+
 isReservedId :: String -> Bool
 isReservedId str = str `elem` getReservedIdentifiers
+
+isSymbol :: Char -> Bool
+isSymbol c = c `elem` getSymbols
 
 isReservedOp :: String -> Bool
 isReservedOp str = str `elem` getReservedOperators
@@ -32,8 +37,11 @@ getReservedOperators :: [String]
 getReservedOperators = ["..", ":", "::", "=", "\\", "|", "<-", "->", "@", "~", "=>"]
 
 getReservedIdentifiers :: [String]
-getReservedIdentifiers = ["case", "class", "data", "default", "deriving", "do", "else", "if", "import", "in", "infix", "infixl", "infixr", "instance", "let", "module", "newtype", "of", "then", "type", "where", "foreign", "forall", "mdo", "family", "role", "pattern", "static", "group", "by", "using", "qualified", "as", "hiding"]
-    
+getReservedIdentifiers = ["case", "class", "data", "default", "deriving", "do", "else", "if", "import", "in", "infix", "infixl", "infixr", "instance", "let", "module", "newtype", "of", "then", "type", "where", "foreign", "forall", "MDo", "family", "role", "pattern", "static", "group", "by", "using", "qualified", "as", "hiding"]
+
+getSymbols :: [Char]
+getSymbols = "!#$%&*+./<=>?@\\^|-~"
+
 classificarLexema :: String -> IO ()
 classificarLexema str
     | isConIdIdentifier str = putStrLn "ConId"
