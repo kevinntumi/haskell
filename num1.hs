@@ -2,6 +2,7 @@ import System.IO (hSetEncoding, stdin, stdout, stderr, utf8)
 import Data.Char (isDigit)
 import Control.Monad (when)
 import Text.Read (readMaybe)
+import System.Exit (exitSuccess)
 
 fatorial :: Integer -> Integer
 fatorial 0 = 1
@@ -112,7 +113,7 @@ mostrarMenu = do
                 else 
                     putStrLn "Entrada inválida. Por favor, digite um número inteiro."
         6 -> 
-            return ()
+            exitSuccess
         _ -> 
             do
                 putStrLn "Opção inválida. Por favor, escolha uma opção válida."
