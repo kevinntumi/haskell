@@ -1,3 +1,4 @@
+import System.IO (hSetEncoding, stdin, stdout, stderr, utf8)
 import Data.Char (isUpper, isLower, isDigit)
 import Control.Monad (when)
 
@@ -114,7 +115,14 @@ mostrarMenu = do
 foiAceiteResposta :: String -> Bool
 foiAceiteResposta [] = False
 foiAceiteResposta (x:_) = x `elem` "sS"
+
+permitirCaracteresUTF8 :: IO()
+permitirCaracteresUTF8 = do
+    hSetEncoding stdin utf8
+    hSetEncoding stdout utf8
+    hSetEncoding stderr utf8
             
 main :: IO ()
 main = do
+    permitirCaracteresUTF8
     mostrarMenu
